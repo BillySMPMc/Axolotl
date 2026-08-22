@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-# Install system dependencies required for some cogs/audio
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     ffmpeg \
@@ -11,12 +11,10 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Copy and install the bot
 COPY . /app
 RUN pip install --no-cache-dir .
 
-# Create the data directory for persistent storage
 RUN mkdir -p /data
 
-# Default command to run Red-DiscordBot
-CMD ["redbot", "Axolotl", "--no-color", "--instance-path", "/data"]
+# Use a shell form entrypoint so environment variables evaluate correctly
+CMD redbot Axolotl --no-color --instance-path /data --token ${TOKEN} --prefix ${PREFIX:-!}
