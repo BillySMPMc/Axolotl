@@ -14,7 +14,9 @@ RUN pip install --no-cache-dir .
 
 RUN mkdir -p /data
 
-# Pass token via environment variable which Red reads automatically
-ENV RED_TOKEN=${TOKEN}
+# Set the environment variable for Red's data path storage
+ENV RED_STORAGE_TYPE=JSON
+ENV RED_DATA_PATH=/data
 
-CMD ["redbot", "Axolotl", "--no-color", "--instance-path", "/data"]
+# Start the bot instance named Axolotl
+CMD ["redbot", "Axolotl", "--token", "${TOKEN}"]
