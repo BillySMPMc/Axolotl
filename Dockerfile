@@ -14,9 +14,7 @@ RUN pip install --no-cache-dir .
 
 RUN mkdir -p /data
 
-# Set the environment variable for Red's data path storage
-ENV RED_STORAGE_TYPE=JSON
-ENV RED_DATA_PATH=/data
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Start the bot instance named Axolotl
-CMD ["redbot", "Axolotl", "--token", "${TOKEN}"]
+CMD ["/start.sh"]
