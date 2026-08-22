@@ -12,9 +12,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     ffmpeg \
     git \
-    locales \
-    && sed -i '/^# *en_US.UTF-8/s/^# *//' /etc/locale.gen \
-    && locale-gen \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
@@ -27,7 +24,5 @@ RUN mkdir -p /data
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
-
-VOLUME ["/data"]
 
 ENTRYPOINT ["/start.sh"]
