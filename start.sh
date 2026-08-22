@@ -1,16 +1,17 @@
 #!/bin/bash
 
-CONFIG_DIR="/data/.config/Red-DiscordBot"
-INSTANCE_DIR="/data/Axolotl"
+# Force Red to store its global config/registry on the persistent volume
+export XDG_CONFIG_HOME="/data"
 
-# Check if the instance config already exists
-if [ ! -f "$CONFIG_DIR/config.json" ]; then
-    echo "Generating Red configuration files..."
-    mkdir -p "$CONFIG_DIR"
+INSTANCE_DIR="/data/Red-DiscordBot"
+CONFIG_FILE="/data/Red-DiscordBot/config.json"
+
+# If the config registry doesn't exist, generate it automatically
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Creating Red-DiscordBot configuration registry..."
     mkdir -p "$INSTANCE_DIR"
-
-    # Write a basic configuration json so redbot knows about the Axolotl instance
-    cat << EOF > "$CONFIG_DIR/config.json"
+    
+    cat << EOF > "$CONFIG_FILE"
 {
     "Axolotl": {
         "DATA_PATH": "$INSTANCE_DIR",
@@ -22,4 +23,4 @@ EOF
 fi
 
 echo "Starting Red-DiscordBot for Axolotl..."
-exec redbot Axolotl --token "$TOKEN" --prefix "${PREFIX:-!}"
+exec redbot Axolotl --token "$TOKEN" --owner "$OWNER_ID" --prefix "${PREFIX:-!}"
