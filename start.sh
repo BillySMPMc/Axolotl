@@ -1,28 +1,27 @@
-#!/bin/bash
+#!/bin/sh
 
-# Force Red-DiscordBot configuration registry directory to your persistent volume
-export XDG_CONFIG_HOME="/data"
+set -e
 
-CONFIG_DIR="/data/Red-DiscordBot"
-INSTANCE_DIR="/data/Axolotl"
-CONFIG_FILE="$CONFIG_DIR/config.json"
+echo "=========================================="
+echo "          AXOLOTL DISCORD BOT"
+echo "=========================================="
+echo ""
 
-# Create directories and instance JSON configuration file if they don't exist
-if [ ! -f "$CONFIG_FILE" ]; then
-    echo "Initializing Red-DiscordBot configuration for Axolotl..."
-    mkdir -p "$CONFIG_DIR"
-    mkdir -p "$INSTANCE_DIR"
+DATA_DIR="/data"
 
-    cat << EOF > "$CONFIG_FILE"
-{
-    "Axolotl": {
-        "DATA_PATH": "$INSTANCE_DIR",
-        "STORAGE_TYPE": "JSON",
-        "STORAGE_DETAILS": {}
-    }
-}
-EOF
+mkdir -p "$DATA_DIR"
+
+echo "[Axolotl] Starting..."
+echo "[Axolotl] Data directory: $DATA_DIR"
+
+# If no Red/Axolotl configuration exists, run the setup wizard.
+if [ ! -f "$DATA_DIR/config.json" ]; then
+    echo "[Axolotl] No configuration found."
+    echo "[Axolotl] Running initial setup..."
+
+    redbot-setup --no-prompt "$DATA_DIR"
 fi
 
-echo "Starting Red-DiscordBot instance: Axolotl..."
-exec redbot Axolotl --token "$TOKEN" --owner "$OWNER_ID" --prefix "${PREFIX:-!}"
+echo "[Axolotl] Starting bot..."
+
+exec redbot --no-prompt "$DATA_DIR"
