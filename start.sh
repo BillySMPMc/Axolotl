@@ -11,6 +11,7 @@ DATA_DIR="/data"
 
 mkdir -p "$DATA_DIR"
 
+echo "[Axolotl] Starting..."
 echo "[Axolotl] Data directory: $DATA_DIR"
 
 if [ -z "$TOKEN" ]; then
@@ -22,15 +23,6 @@ if [ -z "$PREFIX" ]; then
     PREFIX="!"
 fi
 
-echo "[Axolotl] Starting Axolotl..."
+echo "[Axolotl] Prefix: $PREFIX"
 
-# Existing Red configuration
-if [ -f "$DATA_DIR/config.json" ]; then
-    echo "[Axolotl] Existing configuration found."
-    exec redbot "$DATA_DIR"
-fi
-
-echo "[Axolotl] No configuration found."
-echo "[Axolotl] Creating initial bot configuration..."
-
-redbot "$DATA_DIR" --no-prompt
+exec redbot "$DATA_DIR"
