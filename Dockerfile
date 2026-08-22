@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir .
 RUN mkdir -p /data
 
 # Default command to run Red-DiscordBot
-CMD ["redbot", "botname", "--no-color", "--instance-path", "/data"]
+CMD ["redbot", "Axolotl", "--no-color", "--instance-path", "/data"]
